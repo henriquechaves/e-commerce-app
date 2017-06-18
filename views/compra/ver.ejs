@@ -1,0 +1,114 @@
+<% include ../comum-admin/cabecalho %>
+	<%-bundleCssCadastroProduto%>
+
+		<div class="page-wrapper" data-menu-marcado="vendas">
+			<div class="container">
+				<div class="page-header">
+					<h1>Visualização de venda <small>Todos os dados sobre uma venda</small></h1>
+				</div>
+				<div class="row">
+					<% include ../comum-admin/menu %>
+						<div class="col-md-10">
+							<div class="row">
+								<div class="col-md-12">
+									<ol class="breadcrumb">
+										<li><a href="/admin/compras/">Vendas</a></li>
+									</ol>
+								</div>
+								<div class="col-md-12">
+									<div class="panel panel-primary" id="dados-basicos">
+										<div class="panel-heading">
+											<h3 class="panel-title">Dados sobre a venda
+											</h3>
+										</div>
+										<div class="panel-body">
+											<table class="table table-hover" id="tabela-produtos">
+												<tbody>
+													<tr>
+														<td>Número</td>
+														<td>
+															<%=compra.numero%>
+														</td>
+													</tr>
+													<tr>
+														<td>Data</td>
+														<td data-datetime="true">
+															<%=compra.data%>
+														</td>
+													</tr>
+													<tr>
+														<td>Valor</td>
+														<td>
+															<%=compra.valor%>
+														</td>
+													</tr>
+													<tr>
+														<td>Valor do frete</td>
+														<td>
+															<%=compra.valorFrete%>
+														</td>
+													</tr>
+													<tr>
+														<td>Valor total</td>
+														<td>
+															<%=compra.valorTotal%>
+														</td>
+													</tr>
+													<%if(compra.cliente){%>
+														<tr>
+															<td>Cliente</td>
+															<td>
+																<%=compra.cliente.nome%> &nbsp; - &nbsp;
+																	<%=compra.cliente.email%>
+															</td>
+														</tr>
+														<%}%>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="panel panel-default" id="dados-basicos">
+										<div class="panel-heading">
+											<h3 class="panel-title">Produtos
+											</h3>
+										</div>
+										<div class="panel-body">
+											<table class="table table-hover" id="tabela-compras">
+												<thead>
+													<tr>
+														<th>#</th>
+														<th>Nome</th>
+														<th>Número pedido</th>
+														<th>Valor</th>
+														<th>Total pedido</th>
+													</tr>
+												</thead>
+												<tbody>
+													<% for (var i = 0; i < compra.produtos.length; i++) { %>
+														<%var produto = compra.produtos[i];%>
+															<tr>
+																<td><a href="/admin/produto/editar/<%=produto._id%>"><i class="glyphicon glyphicon-zoom-in"></i></a></td>
+																<td>
+																	<%=produto.nome%>
+																</td>
+																<td>
+																	<%=produto.numeroPedido%>
+																</td>
+																<td data-moeda="true">
+																	<%=produto.preco%>
+																</td>
+																<td data-moeda="true">
+																	<%=produto.totalPedido%>
+																</td>
+															</tr>
+															<%}%>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+				</div>
+				<% include ../comum-admin/rodape %>
+					<%-bundleJsCadastroProduto%>

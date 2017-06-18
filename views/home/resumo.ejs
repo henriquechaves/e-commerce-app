@@ -1,0 +1,101 @@
+<% include ../comum-site/cabecalho %>
+	<link href="/stylesheets/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/assets/global/plugins/ladda/ladda-themeless.min.css" rel="stylesheet" type="text/css">
+
+	<div class="main">
+		<div class="container">
+			<ul class="breadcrumb">
+				<li><a href="/">Home</a></li>
+				<li><a href="/produtos">Loja</a></li>
+				<li class="active">Resumo compra</li>
+			</ul>
+			<h2>Pedido confirmado! Seu número para acompanhamento é:
+				<%=numero%>
+			</h2>
+			<a href="/" class="btn btn-default">Continuar comprando</a>
+			<div class="panel-body row">
+				<div class="goods-page">
+					<div class="goods-data clearfix">
+						<div class="table-wrapper-responsive">
+							<table class="col-md-12">
+								<thead>
+									<tr>
+										<th class="checkout-image">Foto</th>
+										<th class="checkout-description">Descrição</th>
+										<th class="checkout-quantity">Quantidade</th>
+										<th class="checkout-price">Preço unitário</th>
+										<th class="checkout-total">Total</th>
+									</tr>
+								</thead>
+								<tbody>
+									<%for (var i = 0; i < produtos.length; i++) {%>
+										<%var produto = produtos[i];%>
+											<tr>
+												<td class="goods-page-image">
+													<a href="javascript:;"><img src="<%=produto.urlFotoLista%>" alt="<%=produto.nome%>"></a>
+												</td>
+												<td class="goods-page-description">
+													<h3>
+														<a href="javascript:;">
+															<%=produto.nome%>
+														</a>
+													</h3>
+													<%if(produto.descrição){%>
+														<p>
+															<%=produto.descrição%>
+														</p>
+														<%}%>
+															<%if(produto.observacao){%>
+																<p>
+																	<%=produto.observacao%>
+																</p>
+																<%}%>
+																	<%if(produto.largura){%>
+																		<em><%=produto.largura%> cm X <%=produto.altura%> cm</em>
+																		<%}%>
+																			<%if(produto.peso){%>
+																				<em><%=produto.peso%> KG</em>
+																				<%}%>
+												</td>
+												<td class="goods-page-quantity">
+													<div class="product-quantity">
+														<strong><%=produto.numeroPedido%></strong>
+													</div>
+												</td>
+												<td class="goods-page-price">
+													<strong data-moeda="true"><%=produto.preco%></strong>
+												</td>
+												<td class="goods-page-total">
+													<strong data-moeda="true"><%=produto.totalPedido%></strong>
+												</td>
+											</tr>
+											<%}%>
+								</tbody>
+							</table>
+						</div>
+						<div class="checkout-total-block">
+							<ul>
+								<li>
+									<em>Sub total</em>
+									<strong class="price"><span data-moeda="true" class="valor-total"><%=valor%></span></strong>
+								</li>
+								<li>
+									<em>Frete</em>
+									<strong class="price"><span>R$ </span><span data-valor-frete="true"><%=valorFrete%></span></strong>
+								</li>
+								<li class="shopping-total-price">
+									<em>Total</em>
+									<strong class="price"><span>R$</span>
+									<span id="valor-total-compra" data-valor="<%=valorTotal.toFixed(2)%>" class="valor-total"><%=valorTotal%></span></strong>
+								</li>
+							</ul>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<% include ../comum-site/rodape %>
+		<%-bundleJsFinalizarCompra%>

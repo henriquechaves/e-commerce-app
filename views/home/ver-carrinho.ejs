@@ -1,0 +1,111 @@
+<% include ../comum-site/cabecalho %>
+	<div class="main">
+		<div class="container">
+			<div class="row margin-bottom-40">
+				<div class="col-md-12 col-sm-12" id="pagina">
+					<h1>Meu carrinho</h1>
+					<%if(itens.length){%>
+						<div class="goods-page" id="container-tabela">
+							<div class="goods-data clearfix">
+								<div class="table-wrapper-responsive">
+									<table summary="Shopping cart" id="tabela-carrinho">
+										<thead>
+											<tr>
+												<th class="goods-page-image">Foto</th>
+												<th class="goods-page-description">Descrição</th>
+												<th class="goods-page-quantity">Quantidade</th>
+												<th class="goods-page-price">Preço unitário</th>
+												<th class="goods-page-total" colspan="2">Total</th>
+											</tr>
+										</thead>
+										<tbody>
+											<%for (var i = 0; i < itens.length; i++) {%>
+												<%var produto = itens[i];%>
+													<tr>
+														<td class="goods-page-image">
+															<a href="javascript:;"><img src="<%=produto.urlFotoLista%>" alt="<%=produto.nome%>"></a>
+														</td>
+														<td class="goods-page-description">
+															<h3>
+																<a href="javascript:;">
+																	<%=produto.nome%>
+																</a>
+															</h3>
+															<%if(produto.descrição){%>
+																<p>
+																	<%=produto.descrição%>
+																</p>
+																<%}%>
+																	<%if(produto.observacao){%>
+																		<p>
+																			<%=produto.observacao%>
+																		</p>
+																		<%}%>
+																			<%if(produto.largura){%>
+																				<em><%=produto.largura%> cm X <%=produto.altura%> cm</em>
+																				<%}%>
+																					<%if(produto.peso){%>
+																						<em><%=produto.peso%> KG</em>
+																						<%}%>
+														</td>
+														<td class="goods-page-quantity">
+															<div class="product-quantity">
+																<strong><%=produto.numeroPedido%></strong>
+															</div>
+														</td>
+														<td class="goods-page-price">
+															<strong data-moeda="true"><%=produto.preco%></strong>
+														</td>
+														<td class="goods-page-total">
+															<strong data-moeda="true"><%=produto.totalPedido%></strong>
+														</td>
+														<td class="del-goods-col">
+															<a class="del-goods remover-tabela" data-id="<%=produto._id.toString()%>" href="javascript:;">&nbsp;</a>
+														</td>
+													</tr>
+													<%}%>
+										</tbody>
+									</table>
+								</div>
+								<div class="shopping-total">
+									<ul>
+										<li>
+											<em>Sub total</em>
+											<strong class="price"><span>R$ </span><span class="valor-total"><%=valorTotal%></span></strong>
+										</li>
+										<li>
+											<em>Frete</em>
+											<strong class="price"><span>R$ </span>X</strong>
+										</li>
+										<li class="shopping-total-price">
+											<em>Total</em>
+											<strong class="price"><span>R$ </span><span class="valor-total"><%=valorTotal%></span> +  Frete</strong>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<a class="btn btn-default" href="/produtos">Continuar comprando <i class="fa fa-shopping-cart"></i></a>
+							<a class="btn btn-primary" href="/compra/finalizar">Finalizar compra <i class="fa fa-check"></i></a>
+						</div>
+						<%}else{%>
+							<div class="shopping-cart-page">
+								<div class="shopping-cart-data clearfix">
+									<p>Seu carrinho está vazio!</p>
+								</div>
+							</div>
+							<%}%>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<% include ../comum-site/rodape %>
+		<%-bundleJsVerCarrinho%>
+
+			<script type="text/html" id="scp-pagina-vazia">
+				<div class="shopping-cart-page">
+					<div class="shopping-cart-data clearfix">
+						<p>Seu carrinho está vazio!</p>
+					</div>
+				</div>
+			</script>

@@ -1,0 +1,37 @@
+<div class="top-cart-info">
+  <a href="javascript:void(0);" class="top-cart-info-count"><span id="numero-itens"><%=numeroItens%></span> itens</a>
+  <a href="javascript:void(0);" class="top-cart-info-value"><span id="valor-total" data-moeda="true"><%=valorTotal%></span></a>
+</div>
+<i class="fa fa-shopping-cart"></i>
+
+<div class="top-cart-content-wrapper <%=classe%>" id="container-itens">
+  <div class="top-cart-content">
+    <ul class="scroller" id="lista-itens" style="height: 250px;">
+      <%for (var i = 0; i < itens.length; i++) {%>
+        <%var produto = itens[i];%>
+          <li class="item-carrinho" data-id="<%=produto._id%>">
+            <a href="javascript:void(0);"><img src="<%=produto.urlFotoLista%>" alt="<%=produto.nome%>" width="37" height="34"></a>
+            <span class="cart-content-count">x <%=produto.numeroPedido%></span>
+            <strong><a href="javascript:void(0);"><%=produto.nome%></a></strong>
+            <em class="total-pedido" data-moeda="true"><%=produto.totalPedido%></em>
+            <a href="javascript:void(0);" class="del-goods">&nbsp;</a>
+          </li>
+          <%}%>
+    </ul>
+    <div class="text-right">
+      <a href="/carrinho/ver" class="btn btn-default">Ver carrinho</a>
+      <a href="/compra/finalizar" class="btn btn-primary">Finalizar compra</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<script type="text/html" id="scpItem">
+  <li class="item-carrinho" data-id="${_id}">
+    <a href="javascript:void(0);"><img src="${urlFotoLista}" alt="${nome}" width="37" height="34"></a>
+    <span class="cart-content-count">x ${numeroPedido}</span>
+    <strong><a href="javascript:void(0);">${nome}</a></strong>
+    <em data-moeda="true">${totalPedido}</em>
+    <a href="javascript:void(0);" class="del-goods">&nbsp;</a>
+  </li>
+</script>

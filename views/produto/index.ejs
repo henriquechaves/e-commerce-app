@@ -1,0 +1,69 @@
+<% include ../comum-admin/cabecalho %>
+	<div class="page-wrapper" data-menu-marcado="produtos">
+		<div class="container">
+			<div class="page-header">
+				<h1>Lista de produtos <small>Todos os produtos cadastrados na loja.</small></h1>
+			</div>
+			<div class="row">
+				<% include ../comum-admin/menu %>
+					<div class="col-md-10">
+						<div class="col-md-12 margin-bottom-10">
+							<a type="button" class="btn btn-primary btn-lg pull-right" href="/admin/produto/novo"><i class="glyphicon glyphicon-plus"></i> Novo produto</a>
+						</div>
+						<div class="col-md-12">
+							<table class="table table-hover" id="tabela-produtos">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Nome</th>
+										<th>Preço</th>
+										<th>Quantidade</th>
+										<th>Categoria</th>
+										<th>Destaque</th>
+										<th>Ativo</th>
+									</tr>
+								</thead>
+								<tbody>
+									<% for (var i = 0; i < produtos.length; i++) { %>
+										<%var produto = produtos[i];%>
+											<tr>
+												<td><a href="/admin/produto/editar/<%=produto._id%>"><i class="glyphicon glyphicon-edit"></i></a></td>
+												<td>
+													<%=produto.nome%>
+												</td>
+												<td data-moeda="true">
+													<%=produto.preco%>
+												</td>
+												<td>
+													<%=produto.quantidade%>
+												</td>
+												<td>
+													<%=produto.categoria.nome%>
+												</td>
+												<td>
+													<%if(produto.destaque){%>
+														<label class="label label-success">Sim</label>
+														<a href="/admin/produto/destacarOuNao/<%=produto._id%>/false" class="btn btn-link btn-sm"><i class="glyphicon glyphicon-star-empty"></i> Retirar destaque</a>
+														<%}else{%>
+															<label class="label label-danger">Não</label>
+															<a href="/admin/produto/destacarOuNao/<%=produto._id%>/true" class="btn btn-link btn-sm"><i class="glyphicon glyphicon-star"></i> Tornar destaque</a>
+															<%}%>
+												</td>
+												<td>
+													<%if(produto.ativo){%>
+														<label class="label label-success">Sim</label>
+														<a href="/admin/produto/ativarOuInativar/<%=produto._id%>/false" class="btn btn-link btn-sm"><i class="glyphicon glyphicon-ban-circle"></i> Inativar</a>
+														<%}else{%>
+															<label class="label label-danger">Não</label>
+															<a href="/admin/produto/ativarOuInativar/<%=produto._id%>/true" class="btn btn-link btn-sm"><i class="glyphicon glyphicon-ok"></i> Ativar</a>
+															<%}%>
+												</td>
+											</tr>
+											<%}%>
+								</tbody>
+							</table>
+						</div>
+					</div>
+			</div>
+		</div>
+		<% include ../comum-admin/rodape %>

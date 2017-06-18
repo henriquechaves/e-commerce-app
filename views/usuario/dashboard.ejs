@@ -1,0 +1,107 @@
+<% include ../comum-admin/cabecalho %>
+<link rel="stylesheet" type="text/css" href="stylesheets/metronic/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="stylesheets/metronic/components-admin.css">
+<div class="page-wrapper" data-menu-marcado="inicio">
+	<div class="container">
+		<div class="page-header">
+			<h1>Dashboard <small>Acompanhe aqui um resumo das vendas e da administração da loja</small></h1>
+		</div>	
+		<div class="row">
+			<% include ../comum-admin/menu %>
+			<div class="col-md-10">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="dashboard-stat blue-madison">
+							<div class="visual">
+								<i class="fa fa-briefcase fa-icon-medium"></i>
+							</div>
+							<div class="details">
+								<div class="number">
+									<%=dashboard.totalProdutosVendidos%>
+								</div>
+								<div class="desc">
+									Produtos vendidos
+								</div>
+							</div>							
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="dashboard-stat red-intense">
+							<div class="visual">
+								<i class="fa fa-shopping-cart"></i>
+							</div>
+							<div class="details">
+								<div class="text-card-dashboard">
+									<%=dashboard.produtoMaisVendido%>
+								</div>
+								<div class="desc">
+									O mais vendido
+								</div>
+							</div>							
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="dashboard-stat green-haze">
+							<div class="visual">
+								<i class="fa fa-group fa-icon-medium"></i>
+							</div>
+							<div class="details">
+								<div class="number">
+									<span data-moeda="true"><%=dashboard.totalVendas%></span>
+								</div>
+								<div class="desc">
+									Total de vendas
+								</div>
+							</div>							
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="dashboard-stat blue">
+							<div class="visual">
+								<i class="fa fa-briefcase fa-icon-medium"></i>
+							</div>
+							<div class="details">
+								<div class="number">
+									<%=dashboard.produtosCadastrados%>
+								</div>
+								<div class="desc">
+									Produtos cadastrados
+								</div>
+							</div>							
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="dashboard-stat blue-chambray">
+							<div class="visual">
+								<i class="fa fa-shopping-cart"></i>
+							</div>
+							<div class="details">
+								<div class="number">
+									<%=dashboard.produtosInativos%>
+								</div>
+								<div class="desc">
+									Produtos inativos
+								</div>
+							</div>							
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="dashboard-stat blue-ebonyclay">
+							<div class="visual">
+								<i class="fa fa-shopping-cart"></i>
+							</div>
+							<div class="details">
+								<div class="number">
+									<%=dashboard.produtosEstoque%>
+								</div>
+								<div class="desc">
+									Produtos em estoque
+								</div>
+							</div>							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<% include ../comum-admin/rodape %>

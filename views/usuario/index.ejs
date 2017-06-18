@@ -1,0 +1,79 @@
+<% include ../comum-admin/cabecalho %>
+	<div class="page-wrapper" data-menu-marcado="usuarios">
+		<div class="container">
+			<div class="page-header">
+				<h1>Usuários <small>Cadastre os usuários que podem criar, editar e excluir produtos</small></h1>
+			</div>
+			<div class="row">
+				<% include ../comum-admin/menu %>
+					<div class="col-md-10">
+						<div class="col-md-12">
+							<form action="usuario/novo" id="formUsuario" method="post">
+								<div class="panel panel-primary">
+									<div class="panel-heading">
+										<h3 class="panel-title" id="panel-title">Criar usuário<a class="anchorjs-link" href="#panel-title"><span class="anchorjs-icon"></span></a></h3>
+									</div>
+									<div class="panel-body">
+										<div class="form-group">
+											<label class="control-label">Nome</label>
+											<input type="text" class="form-control" name="nome" placeholder="Nome do usuário">
+										</div>
+										<div class="form-group">
+											<label class="control-label">Email</label>
+											<input type="text" class="form-control" name="email" placeholder="Email do usuário">
+										</div>
+										<div class="form-group">
+											<label class="control-label">Senha</label>
+											<input type="password" class="form-control" name="senha" placeholder="Senha de acesso">
+										</div>
+									</div>
+									<div class="panel-footer">
+										<button type="button" data-loading-text="Cadastrando usuário..." id="btnSalvarUsuario" class="btn btn-success">Adicionar usuário</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="col-md-12">
+							<div class="panel panel-primary">
+								<div class="panel-heading">
+									<h3 class="panel-title" id="panel-title">Usuários cadastrados<a class="anchorjs-link" href="#panel-title"><span class="anchorjs-icon"></span></a></h3>
+								</div>
+								<div class="panel panel-body">
+									<table class="table table-striped">
+										<thead>
+											<tr>
+												<th></th>
+												<th>Nome</th>
+												<th>Email</th>
+											</tr>
+										</thead>
+										<tbody id="tBodyUsuarios">
+											<% for(var i = 0; i < usuarios.length; i++) {%>
+												<% var usuario = usuarios[i]; %>
+													<tr>
+														<td><a href="javascript:void(0);" data-excluir-usuario="<%= usuario.id %>"><i class="glyphicon glyphicon-trash"></i></a></td>
+														<td>
+															<%= usuario.nome %>
+														</td>
+														<td>
+															<%= usuario.email %>
+														</td>
+													</tr>
+													</script>
+													<% } %>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+			<% include ../comum-admin/rodape %>
+				<%-bundleJsCadastroUsuario%>
+					<script type="text/<html" id="scpUsuarios">
+						<tr>
+							<td><a href="javascript:void(0);" data-excluir-usuario="${_id}"><i class="glyphicon glyphicon-trash"></i></a></td>
+							<td>${nome}</td>
+							<td>${email}</td>
+						</tr>
+					</script>

@@ -1,0 +1,122 @@
+<% include ../comum-site/cabecalho %>
+	<link href="/stylesheets/assets/global/plugins/fancybox/jquery.fancybox.css" rel="stylesheet">
+	<link href="/stylesheets/assets/global/plugins/carousel-owl-carousel/owl.carousel.css" rel="stylesheet">
+	<link href="/stylesheets/assets/global/plugins/slider-layer-slider/css/layerslider.css" rel="stylesheet">
+	<link href="/stylesheets/assets/frontend/pages/css/style-layer-slider.css" rel="stylesheet">
+	<link href="/stylesheets/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/assets/global/plugins/rateit/src/rateit.css" rel="stylesheet" type="text/css">
+	<link href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
+
+	<div class="main">
+		<div class="container">
+			<ul class="breadcrumb">
+				<li><a href="/">Home</a></li>
+				<li><a href="/produtos">Produtos</a></li>
+				<li class="active">
+					<%=model.nome%>
+				</li>
+			</ul>
+			<div class="row margin-bottom-40">
+				<div class="sidebar col-md-3 col-sm-5">
+					<ul class="list-group margin-bottom-25 sidebar-menu">
+						<li class="list-group-item clearfix active"><a href="/produtos?cat=<%=model.categoria._id%>"><i class="fa fa-angle-right"></i> <%=model.categoria.nome%></a></li>
+					</ul>
+				</div>
+				<div class="col-md-9 col-sm-7">
+					<div class="product-page" data-produto="<%=JSON.stringify(model)%>">
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+								<div class="product-main-image">
+									<img src="<%=model.urlFotoLista%>" alt="<%=model.nome%>" class="img-responsive" data-BigImgsrc="<%=model.urlFotoLista%>">
+								</div>
+								<div class="product-other-images">
+									<a href="javascript:void(0);" class="fancybox-button" rel="photos-lib"><img alt="<%=model.nome%>" src="<%=model.urlFotoPainel%>"></a>
+								</div>
+							</div>
+							<div class="col-md-6 col-sm-6">
+								<h1>
+									<%=model.nome%>
+								</h1>
+								<div class="price-availability-block clearfix">
+									<div class="price">
+										<strong data-moeda="true"><%=model.preco%></strong>
+									</div>
+									<%if(model.quantidade < 5){%>
+										<div class="availability">
+											Disponível: <strong><%=model.quantidade%> em estoque</strong>
+										</div>
+										<%}%>
+								</div>
+								<div class="description">
+									<%if(model.descricao){%>
+										<p>
+											<%=model.descricao%>
+										</p>
+										<%}%>
+								</div>
+								<div class="product-page-cart">
+									<div class="product-quantity">
+										<input id="product-quantity" type="text" value="1" readonly class="form-control input-sm">
+									</div>
+									<button class="btn btn-primary add2cart" type="submit">Adicionar ao carrinho</button>
+								</div>
+							</div>
+
+							<div class="product-page-content">
+								<ul id="myTab" class="nav nav-tabs">
+									<li class="active"><a href="#Description" data-toggle="tab">Observações</a></li>
+									<li><a href="#Information" data-toggle="tab">Outras informações</a></li>
+								</ul>
+								<div id="myTabContent" class="tab-content">
+									<div class="tab-pane fade in active" id="Description">
+										<%if(model.observacao){%>
+											<p>
+												<%=model.observacao%>
+											</p>
+											<%}else{%>
+												<p>Nada a acrescentar</p>
+												<%}%>
+									</div>
+									<div class="tab-pane fade" id="Information">
+										<table class="datasheet">
+											<tr>
+												<td class="datasheet-features-type">Largura</td>
+												<%if(model.largura){%>
+													<td>
+														<%=model.largura%> cm</td>
+													<%}else{%>
+														<td>Não informado</td>
+														<%}%>
+											</tr>
+											<tr>
+												<td class="datasheet-features-type">Altura</td>
+												<%if(model.altura){%>
+													<td>
+														<%=model.altura%> cm</td>
+													<%}else{%>
+														<td>Não informado</td>
+														<%}%>
+											</tr>
+											<tr>
+												<td class="datasheet-features-type">Peso</td>
+												<%if(model.peso){%>
+													<td>
+														<%=model.peso%> KG</td>
+													<%}else{%>
+														<td>Não informado</td>
+														<%}%>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+
+	<% include ../comum-site/rodape %>
+		<%-bundleJsVerProduto%>

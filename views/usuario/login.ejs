@@ -1,0 +1,25 @@
+<% include ../comum-admin/cabecalho-login %>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/login.css">
+
+	<div class="container">
+		<form class="form-signin" action="/admin/login" method="post">
+			<%if(typeof(model) !== "undefined"){%>
+				<div class="alert alert-danger alert-dismissible fade in" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+					<h4>Erro :(</h4>
+					<p>
+						<%= model.mensagensErro[0] %>
+					</p>
+				</div>
+				<%}%>
+
+					<h2 class="form-signin-heading">Login</h2>
+					<label for="inputEmail" class="sr-only">Email</label>
+					<input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email" required="" autofocus="">
+					<label for="inputPassword" class="sr-only">Senha</label>
+					<input type="password" id="inputPassword" name="senha" class="form-control" placeholder="Senha" required="">
+					<button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+		</form>
+	</div>
+
+	<% include ../comum-admin/rodape %>

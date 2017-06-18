@@ -1,0 +1,45 @@
+.navbar{
+	background-color: #d9534f;
+}
+
+.navbar-brand {
+	color: white !important;
+}
+
+.navbar-text {
+	color: white !important;
+}
+
+.botao-sair {
+	color: white;
+}
+
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+	z-index: 2;
+	color: #fff;
+	background-color: #d9534f;
+	border-color: #C25853;
+}
+
+.margin-bottom-10{
+	margin-bottom: 10px;
+}
+
+.no-gutter{
+	padding: 0px;
+}
+
+.text-card-dashboard{
+	padding-top: 25px;
+	text-align: right;
+	font-size: 20px;
+	line-height: 36px;
+	letter-spacing: -1px;
+	margin-bottom: 0px;
+	color: #FFFFFF;
+	font-weight: 300;
+}
+
+.nav-tabs {
+  margin-bottom: 15px;
+}

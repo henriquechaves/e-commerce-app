@@ -1,0 +1,62 @@
+<% include ../comum-site/cabecalho %>
+	<div class="main">
+		<div class="container">
+			<ul class="breadcrumb">
+				<li><a href="/">Home</a></li>
+				<li class="active">Contato</li>
+			</ul>
+			<div class="row margin-bottom-40">
+				<% include ../comum-site/menu %>
+					<div class="col-md-9 col-sm-9">
+						<%if(typeof(erro) !== "undefined"){%>
+							<div class="alert alert-danger alert-dismissible fade in" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+								<h4>Erro :(</h4>
+								<p>
+									<%= erro %>
+								</p>
+							</div>
+							<%}%>
+								<%if(typeof(sucesso) !== "undefined"){%>
+									<div class="alert alert-success alert-dismissible fade in" role="alert">
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+										<h4>Sucesso :)</h4>
+										<p>
+											<%= sucesso %>
+										</p>
+									</div>
+									<%}%>
+										<h1>Contato</h1>
+										<div class="content-page">
+											<div id="map" class="gmaps margin-bottom-40" style="height:400px;"></div>
+
+											<h2>Formulário de contato</h2>
+											<p>Alguma dúvida, sugestão, ou problema com o site? Entre em contato conosco.</p>
+
+											<!-- BEGIN FORM-->
+											<form action="/enviar" class="default-form" role="form" method="POST">
+												<div class="form-group">
+													<label for="name">Nome <span class="require">*</span></label>
+													<input type="text" name="nome" class="form-control" id="nome">
+												</div>
+												<div class="form-group">
+													<label for="email">Email <span class="require">*</span></label>
+													<input type="text" name="email" class="form-control" id="email">
+												</div>
+												<div class="form-group">
+													<label for="message">Mensagem <span class="require">*</span></label>
+													<textarea class="form-control" name="mensagem" rows="8" id="mensagem"></textarea>
+												</div>
+												<div class="padding-top-20">
+													<button type="submit" class="btn btn-primary">Enviar</button>
+												</div>
+											</form>
+											<!-- END FORM-->
+										</div>
+					</div>
+			</div>
+		</div>
+	</div>
+	<% include ../comum-site/rodape %>
+		<script src="https://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+		<%-bundleJsContato%>

@@ -1,0 +1,227 @@
+<% include ../comum-admin/cabecalho %>
+	<%-bundleCssCadastroProduto%>
+
+		<div class="page-wrapper" data-menu-marcado="produtos">
+			<div class="container">
+				<div class="page-header">
+					<h1>Novo/Edição produto <small>Crie ou edite um produto</small></h1>
+				</div>
+				<div class="row">
+					<% include ../comum-admin/menu %>
+						<div class="col-md-10">
+							<div class="row">
+								<div class="col-md-12">
+									<ol class="breadcrumb">
+										<li><a href="/admin/produtos/">Produtos</a></li>
+										<li><a href="/admin/produto/novo">Cadastro</a></li>
+									</ol>
+								</div>
+							</div>
+							<form id="form-produto" method="post" action="/admin/produto/cadastro">
+								<%if(produto._id){%>
+									<input type="hidden" name="_id" value="<%=produto._id%>">
+									<input type="hidden" name="destaque" value="<%=produto.destaque%>">
+									<input type="hidden" name="totalVendido" value="<%=produto.totalVendido%>">
+									<%}%>
+										<div class="row form-group">
+											<div class="col-md-12">
+												<a href="/admin/produtos" type="button" class="btn btn-danger pull-left"><i class="glyphicon glyphicon-arrow-left"></i> Voltar</a>
+
+												<button type="submit" type="button" data-loading-text="Cadastrando produto" data-salvar="true" class="btn btn-success pull-right"><i class="glyphicon glyphicon-floppy-save"></i> Salvar</a>
+							</div>
+						</div>
+						<%if(!produto.ativo){%>
+						<div class="alert alert-warning alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+												<strong>Atenção!</strong> Esse produto está inativo.
+											</div>
+											<%}%>
+												<div class="row">
+													<div class="col-md-12">
+														<div class="panel panel-primary" id="dados-basicos">
+															<div class="panel-heading">
+																<h3 class="panel-title">Dados básicos
+																</h3>
+															</div>
+															<div class="panel-body">
+																<ul class="nav nav-tabs" role="tablist">
+																	<li role="presentation" class="active"><a href="#dados" aria-controls="dados" role="tab" data-toggle="tab">Dados</a></li>
+																	<li role="presentation"><a href="#fotos" aria-controls="fotos" role="tab" data-toggle="tab">Fotos</a></li>
+																</ul>
+																<div class="tab-content">
+																	<div role="dados" class="tab-pane active" id="dados">
+																		<div class="col-md-9">
+																			<div class="form-group">
+																				<label class="control-label">Nome</label>
+																				<input type="text" value="<%= produto.nome %>" data-obrigatorio="O nome é obrigatório" class="form-control" name="nome">
+																			</div>
+																		</div>
+																		<div class="col-md-3">
+																			<div class="form-group">
+																				<label class="control-label">Quantidade</label>
+																				<div class="input-group">
+																					<span class="input-group-addon"><i class="glyphicon glyphicon-equalizer"></i></span>
+																					<input type="text:int" value="<%= produto.quantidade %>" data-obrigatorio="A quantidade é obrigatória" data-numero="true"
+																					 class="form-control" name="quantidade">
+																				</div>
+																			</div>
+																		</div>
+																		<div class="col-md-9">
+																			<div class="form-group">
+																				<label class="control-label">Categoria - <small>Escolha uma existente ou crie outra</small></label>
+																				<select data-obrigatorio="A categoria é obrigatória" class="form-control" data-combo="<%=JSON.stringify({novoItem:true, placeholder:'Escola uma das categorias existentes ou cria outra'})%>"
+																				 name="nomeCategoria" id="categoria-produto">
+															<%for (var i = 0; i < categorias.length; i++) {%>
+															<% var cat = categorias[i]; %>			
+															<%if(cat._id.toString() === produto.categoria.toString()){%>
+															<option value="<%=cat.nome%>" selected><%=cat.nome%></option>
+															<%}else{%>
+															<option value="<%=cat.nome%>"><%=cat.nome%></option>
+															<%}%>														
+															<%}%>
+														</select>
+																			</div>
+																		</div>
+																		<div class="col-md-3">
+																			<div class="form-group">
+																				<label class="control-label">Preço</label>
+																				<div class="input-group">
+																					<span class="input-group-addon">R$</span>
+																					<%if(produto.preco){%>
+																						<input type="text" value="<%= produto.preco.toFixed(2) %>" data-obrigatorio="O preço é obrigatório" class="form-control"
+																						 data-dinheiro="true" name="preco:decimal">
+																						<%}else{%>
+																							<input type="text" value="<%= produto.preco %>" data-obrigatorio="O preço é obrigatório" class="form-control" data-dinheiro="true"
+																							 name="preco:decimal">
+																							<%}%>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div role="fotos" class="tab-pane" id="fotos">
+																		<%if(produto.urlFotoLista){%>
+																			<div class="col-md-6">
+																				<%var dadosLista = JSON.stringify({
+														divFoto: '#div-foto-lista',
+														textoEsconder: 'Esconder foto',
+														textoMostrar: 'Mostrar foto'
+													});%>
+																					<div class="form-group">
+																						<a href="javascript:void(0);" id="ver-foto-lista" data-dados="<%=dadosLista%>" class="btn btn-default">Mostrar foto</a>
+																					</div>
+
+																					<div id="div-foto-lista" style="display:none" class="col-md-12">
+																						<div class="form-group">
+																							<img src="<%=produto.urlFotoLista%>" class="img-responsive">
+																						</div>
+																					</div>
+																			</div>
+																			<%}%>
+																				<%if(produto.urlFotoPainel){%>
+																					<div class="col-md-6">
+																						<%var dadosPainel = JSON.stringify({
+														divFoto: '#div-foto-painel',
+														textoEsconder: 'Esconder foto',
+														textoMostrar: 'Mostrar foto'
+													});%>
+																							<div class="form-group">
+																								<a href="javascript:void(0);" id="ver-foto-painel" data-dados="<%=dadosPainel%>" class="btn btn-default">Mostrar foto</a>
+																							</div>
+
+																							<div id="div-foto-painel" style="display:none" class="col-md-12">
+																								<div class="form-group">
+																									<img src="<%=produto.urlFotoPainel%>" class="img-responsive">
+																								</div>
+																							</div>
+																					</div>
+																					<%}%>
+																						<div class="col-md-6">
+																							<div class="form-group">
+																								<label class="control-label" id="label-foto-lista">Foto da lista</label>
+																								<input type="file" data-id-url="url-foto-lista" id="foto-produto-lista" data-id-label="label-foto-lista" data-largura-minima="400">
+																								<input type="hidden" value="<%=produto.urlFotoLista%>" id="url-foto-lista" name="urlFotoLista" data-obrigatorio="A foto de lista é obrigatória">
+																							</div>
+																						</div>
+																						<div class="col-md-6">
+																							<div class="form-group">
+																								<label class="control-label" id="label-foto-painel">Foto do painel</label>
+																								<input type="file" data-id-url="url-foto-painel" id="foto-produto-painel" data-id-label="label-foto-painel" data-largura-minima="1000"
+																								 data-altura-minima="300">
+																								<input type="hidden" value="<%=produto.urlFotoPainel%>" id="url-foto-painel" name="urlFotoPainel" data-obrigatorio="A foto de painel é obrigatória">
+																							</div>
+																						</div>
+
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="panel panel-default">
+															<div class="panel-heading">
+																<h3 class="panel-title">Informações extras</h3>
+															</div>
+															<div class="panel-body">
+																<div class="col-md-12">
+																	<div class="form-group">
+																		<label class="control-label">Descrição</label>
+																		<textarea class="form-control" name="descricao"><%=produto.descricao%></textarea>
+																	</div>
+																</div>
+																<div class="col-md-12">
+																	<div class="form-group">
+																		<label class="control-label">Observação</label>
+																		<textarea class="form-control" name="observacao"><%=produto.observacao%></textarea>
+																	</div>
+																</div>
+																<div class="col-md-3">
+																	<div class="form-group">
+																		<label class="control-label">Largura</label>
+																		<div class="input-group">
+																			<input type="text" value="<%=produto.largura%>" class="form-control" data-numero="true" name="largura:number" data-obrigatorio="A largura é obrigatória">
+																			<span class="input-group-addon">cm</span>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-md-3">
+																	<div class="form-group">
+																		<label class="control-label">Altura</label>
+																		<div class="input-group">
+																			<input type="text" class="form-control" value="<%=produto.altura%>" data-numero="true" name="altura:number" data-obrigatorio="A altura é obrigatória">
+																			<span class="input-group-addon">cm</span>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-md-3">
+																	<div class="form-group">
+																		<label class="control-label">Comprimento</label>
+																		<div class="input-group">
+																			<input type="text" class="form-control" value="<%=produto.comprimento%>" data-numero="true" name="comprimento:number" data-obrigatorio="O comprimento é obrigatório">
+																			<span class="input-group-addon">cm</span>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-md-3">
+																	<div class="form-group">
+																		<label class="control-label">Peso</label>
+																		<div class="input-group">
+																			<input type="text:int" class="form-control" value="<%=produto.peso%>" data-numero="true" name="peso">
+																			<span class="input-group-addon">kg</span>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row form-group">
+													<div class="col-md-12">
+														<a href="/admin/produtos" type="button" class="btn btn-danger pull-left"><i class="glyphicon glyphicon-arrow-left"></i> Voltar</a>
+
+														<button type="submit" data-loading-text="Cadastrando produto" data-salvar="true" type="button" class="btn btn-success pull-right"><i class="glyphicon glyphicon-floppy-save"></i> Salvar</a>
+								</div>
+							</div>
+						</div>
+					</form>				
+				</div>
+			</div>
+			<% include ../comum-admin/rodape %>	
+			<%-bundleJsCadastroProduto%>

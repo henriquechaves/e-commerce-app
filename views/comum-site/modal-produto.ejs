@@ -1,0 +1,53 @@
+<div id="modal-produto" style="width: 700px; display: none;">
+  <div class="product-page product-pop-up">
+    <div class="row">
+      <div class="col-md-6 col-sm-6 col-xs-3">
+        <div class="product-main-image">
+          <img src="${urlFotoLista}" alt="${nome}" class="img-responsive">
+        </div>
+        <div class="product-other-images">
+          <a href="javascript:;" class="active"><img alt="${nome}" src="${urlFotoPainel}"></a>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-6 col-xs-9">
+        <h1>${nome}</h1>
+        <div class="price-availability-block clearfix">
+          <div class="price">
+            <strong data-moeda="true">${preco}</strong>
+          </div>
+
+          {{if quantidade
+          < 5}} <div class="availability">
+            <strong>${quantidade} em estoque</strong>
+        </div>
+        {{/if}}
+      </div>
+      <div class="description">
+        {{if descricao}}
+        <p>${descricao}</p>
+        {{/if}} {{if observacao}}
+        <p>Observações: ${observacao}</p>
+        {{/if}}
+      </div>
+      <div class="product-page-options">
+        {{if largura}}
+        <div class="pull-left">
+          <label class="control-label">Dimensões: ${largura} cm x ${altura} cm</label>
+        </div>
+        {{/if}} {{if peso}}
+        <div class="pull-left">
+          <label class="control-label">Peso: ${peso} kg</label>
+        </div>
+      </div>
+      {{/if}}
+      <div class="product-page-cart">
+        <div class="product-quantity">
+          <input id="product-quantity" type="text" value="1" readonly name="product-quantity" class="form-control input-sm">
+        </div>
+        <button class="btn btn-primary add2cart-modal" type="button">Adicionar ao carrinho</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>

@@ -1,0 +1,413 @@
+<% include ../comum-site/cabecalho %>
+	<link href="/stylesheets/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/assets/global/plugins/ladda/ladda-themeless.min.css" rel="stylesheet" type="text/css">
+
+	<div class="main">
+		<div class="container">
+			<ul class="breadcrumb">
+				<li><a href="/">Home</a></li>
+				<li><a href="/produtos">Loja</a></li>
+				<li class="active">Finalizar compra</li>
+			</ul>
+
+			<%if(typeof(erro) !== 'undefined'){%>
+				<div class="alert alert-danger alert-dismissible fade in" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+					<h4>Erro :(</h4>
+					<p>Não conseguimos processar sua compra.</p>
+				</div>
+				<%}%>
+
+					<%if(typeof(erroPaypal) !== 'undefined'){%>
+						<div class="alert alert-danger alert-dismissible fade in" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+							<h4>Erro :(</h4>
+							<p>Não conseguimos processar seu pagamento no paypal. Verifique seus dados de pagamento no site.</p>
+						</div>
+						<%}%>
+
+							<form action="/cliente/confirmarPedido" method="POST" id="form-pedido">
+								<div class="row margin-bottom-40">
+									<div class="col-md-12 col-sm-12">
+										<h1>Finalizar compra</h1>
+										<div class="panel-group checkout-page accordion scrollable" id="checkout-page">
+											<div id="checkout" class="panel panel-default">
+												<div class="panel-heading">
+													<h2 class="panel-title">
+														<a data-toggle="collapse" data-parent="#checkout-page" href="#checkout-content" class="accordion-toggle">
+										Passo 1: Dados de conta
+									</a>
+													</h2>
+												</div>
+												<div id="checkout-content" class="panel-collapse collapse in">
+													<div class="panel-body row">
+														<div class="col-md-6 col-sm-6" id="dados-basicos">
+															<h3>Novo cliente</h3>
+															<p>Dados básicos:</p>
+															<div class="radio-list">
+																<label>
+												<input type="radio" name="cliente[criarConta]:boolean" checked="checked" value="true"> Criar conta
+											</label>
+															</div>
+															<p>Criando uma conta você conseguirá comprar rapidamente, receber atualizações sobre o status do pedido, e ter
+																controle sobre as compras realizadas previamente.</p>
+															<button class="btn btn-primary" id="continuar-1" type="button" data-toggle="collapse" data-parent="#checkout-page" data-target="#payment-address-content">Continuar</button>
+														</div>
+														<div class="col-md-6 col-sm-6" id="conta-existente">
+															<h3>Conta existente</h3>
+															<p>Eu já tenho conta.</p>
+															<form role="form" action="#">
+																<input type="hidden" id="email-logado" name="cliente[emailLogado]" class="form-control">
+																<div class="form-group">
+																	<label for="email-login">E-Mail</label>
+																	<input type="text" id="email-login" class="form-control">
+																</div>
+																<div class="form-group">
+																	<label for="password-login">Senha</label>
+																	<input type="password" id="password-login" class="form-control">
+																</div>
+																<a href="javascript:;" data-toggle="modal" data-target="#modal-esqueci-senha">Esqueceu a senha?</a>
+																<div class="padding-top-20">
+																	<button class="btn btn-primary ladda-button" type="button" id="login" data-style="expand-left"><span class="ladda-label">Login</span></button>
+																</div>
+															</form>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div id="payment-address" class="panel panel-default">
+												<div class="panel-heading">
+													<h2 class="panel-title">
+														<a data-toggle="collapse" data-parent="#checkout-page" href="#payment-address-content" class="accordion-toggle">
+										Passo 2: Dados pessoais &amp; Dados de pagamento
+									</a>
+													</h2>
+												</div>
+												<div id="payment-address-content" class="panel-collapse collapse">
+													<div class="panel-body row">
+														<div class="col-md-6 col-sm-6">
+															<h3>Seus dados pessoais</h3>
+															<div class="form-group">
+																<label for="nome">Nome <span class="require">*</span></label>
+																<input type="text" id="nome" data-obrigatorio="O nome é obrigatório" name="cliente[nome]" class="form-control">
+															</div>
+															<div class="form-group">
+																<label for="sobrenome">Sobrenome <span class="require">*</span></label>
+																<input type="text" id="sobrenome" data-obrigatorio="O sobrenome é obrigatório" name="cliente[sobrenome]" class="form-control">
+															</div>
+															<div class="form-group">
+																<label for="email">E-Mail <span class="require">*</span></label>
+																<input type="text" id="email" data-obrigatorio="O email é obrigatório" name="cliente[email]" class="form-control">
+															</div>
+															<div class="form-group">
+																<label for="telefone">Telefone</label>
+																<input type="text" id="telefone" name="cliente[telefone]" data-telefone="true" class="form-control">
+															</div>
+
+															<h3 data-senha="true">Sua senha</h3>
+															<div class="form-group" data-senha="true">
+																<label for="password">Senha <span class="require">*</span></label>
+																<input type="password" data-obrigatorio="A senha é obrigatória" id="cadastro-senha" name="cliente[senha]" class="form-control">
+															</div>
+															<div class="form-group" data-senha="true">
+																<label for="password-confirm">Confirmar senha <span class="require">*</span></label>
+																<input type="password" id="cadastro-confirmar-senha" data-obrigatorio="A confirmação da senha é obrigatória" class="form-control">
+															</div>
+														</div>
+														<div class="col-md-6 col-sm-6" data-endereco="1">
+															<h3>Seu endereço</h3>
+															<div class="col-md-5 col-sm-5 no-gutter">
+																<div class="form-group">
+																	<label for="cep-1">CEP <span class="require">*</span></label>
+																	<input type="text" data-obrigatorio="O cep do endereço é obrigatório" name="cliente[endereco][cep]" data-valor-anterior=""
+																	 id="cep-1" data-cep="true" class="form-control">
+																</div>
+															</div>
+															<div class="col-md-4 col-sm-4 no-gutter">
+																<div class="form-group">
+																	<label for="rua-1">Rua <span class="require">*</span></label>
+																	<input type="text" id="rua-1" data-obrigatorio="A rua do endereço é obrigatória" name="cliente[endereco][rua]" class="form-control">
+																</div>
+															</div>
+															<div class="col-md-3 col-sm-3 no-gutter">
+																<div class="form-group">
+																	<label for="numero-1">Numero <span class="require">*</span></label>
+																	<input type="text" id="numero-1" data-obrigatorio="O número do endereço é obrigatório" name="cliente[endereco][numero]:number"
+																	 data-numero="true" class="form-control">
+																</div>
+															</div>
+															<div class="col-md-12 col-sm-12 no-gutter">
+																<div class="form-group">
+																	<label for="complemento-1">Complemento</label>
+																	<input type="text" name="cliente[endereco][complemento]" id="complemento-1" class="form-control">
+																</div>
+															</div>
+															<div class="col-md-12 col-sm-12 no-gutter">
+																<div class="form-group">
+																	<label for="estado-1">Estado <span class="require">*</span></label>
+																	<select class="form-control input-sm" data-obrigatorio="O estado do endereço é obrigatório" id="estado-1" name="cliente[endereco][estado]">
+													<option value="0"> --- Escolha um estado --- </option>
+													<%for(var i = 0; i < estados.length; i++){%>
+													<%var estado = estados[i];%>
+													<option value="<%=estado.id%>"><%=estado.nome%></option>
+													<%}%>				
+												</select>
+																</div>
+															</div>
+															<div class="col-md-12 col-sm-12 no-gutter">
+																<div class="form-group">
+																	<label for="cidade-1">Cidade <span class="require">*</span></label>
+																	<input type="text" id="cidade-1" data-obrigatorio="A cidade do endereço é obrigatória" name="cliente[endereco][cidade]" class="form-control">
+																</div>
+															</div>
+														</div>
+														<div class="col-md-12">
+															<button class="btn btn-primary  pull-right" type="button" data-toggle="collapse" data-parent="#checkout-page" data-target="#shipping-address-content"
+															 id="button-payment-address">Continuar</button>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div id="shipping-address" class="panel panel-default">
+												<div class="panel-heading">
+													<h2 class="panel-title">
+														<a data-toggle="collapse" data-parent="#checkout-page" href="#shipping-address-content" class="accordion-toggle">
+										Passo 3: Detalhes da entrega
+									</a>
+													</h2>
+												</div>
+												<div id="shipping-address-content" class="panel-collapse collapse endereco-entrega">
+													<div class="panel-body row">
+														<div class="col-md-7 col-sm-7" data-endereco="2">
+															<h3>Endereço de entrega</h3>
+															<div class="col-md-5 col-sm-5 no-gutter">
+																<div class="form-group">
+																	<label for="cep-2">CEP <span class="require">*</span></label>
+																	<input type="text" data-obrigatorio="O cep do endereço de entrega é obrigatório" name="cliente[enderecoEntrega][cep]" data-valor-anterior=""
+																	 id="cep-2" data-cep="true" class="form-control">
+																</div>
+															</div>
+															<div class="col-md-4 col-sm-4 no-gutter">
+																<div class="form-group">
+																	<label for="rua-2">Rua <span class="require">*</span></label>
+																	<input type="text" id="rua-2" data-obrigatorio="A rua do endereço de entrega é obrigatória" name="cliente[enderecoEntrega][rua]"
+																	 class="form-control">
+																</div>
+															</div>
+															<div class="col-md-3 col-sm-3 no-gutter">
+																<div class="form-group">
+																	<label for="numero-2">Numero <span class="require">*</span></label>
+																	<input type="text" data-obrigatorio="O número do endereço de entrega é obrigatório" id="numero-2" name="cliente[enderecoEntrega][numero]:number"
+																	 data-numero="true" class="form-control">
+																</div>
+															</div>
+															<div class="col-md-12 col-sm-12 no-gutter">
+																<div class="form-group">
+																	<label for="complemento-2">Complemento</label>
+																	<input type="text" id="complemento-2" name="cliente[enderecoEntrega][complemento]" class="form-control">
+																</div>
+															</div>
+															<div class="col-md-12 col-sm-12 no-gutter">
+																<div class="form-group">
+																	<label for="estado-2">Estado <span class="require">*</span></label>
+																	<select class="form-control input-sm" data-obrigatorio="O estado do endereço de entrega é obrigatório" id="estado-2" name="cliente[enderecoEntrega][estado]">
+													<option value="0"> --- Escolha um estado --- </option>
+													<%for(var i = 0; i < estados.length; i++){%>
+													<%var estado = estados[i];%>
+													<option value="<%=estado.id%>"><%=estado.nome%></option>
+													<%}%>				
+												</select>
+																</div>
+															</div>
+															<div class="col-md-12 col-sm-12 no-gutter">
+																<div class="form-group">
+																	<label for="cidade-2">Cidade <span class="require">*</span></label>
+																	<input type="text" id="cidade-2" data-obrigatorio="A cidade do endereço de entrega é obrigatória" class="form-control" name="cliente[enderecoEntrega][cidade]">
+																</div>
+															</div>
+														</div>
+														<div class="col-md-5 col-sm-5">
+															<h3>Dados do frete</h3>
+															<div class="col-md-4 col-sm-4">
+																<div class="form-group">
+																	<div class="radio-list">
+																		<label>
+														<input type="radio" disabled="disabled" name="compra[tipoFrete]" id="pac" value="PAC">
+														PAC
+													</label>
+																		<label>
+														<input type="radio" disabled="disabled" name="compra[tipoFrete]" id="sedex" value="SEDEX">
+														SEDEX
+													</label>
+																		<label>
+														<input type="radio" disabled="disabled" name="compra[tipoFrete]" id="sedex10" value="SEDEX10">
+														SEDEX 10
+													</label>
+																	</div>
+																</div>
+															</div>
+															<div class="col-md-8 col-sm-8">
+																<div class="form-group">
+																	<div class="radio-list">
+																		<label id="valor-pac" data-valor="0" data-input="#pac">Informe o CEP</label>
+																		<label id="valor-sedex" data-valor="0" data-input="#sedex"> Informe o CEP</label>
+																		<label id="valor-sedex-10" data-valor="0" data-input="#sedex10">Informe o CEP</label>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="col-md-12">
+															<button class="btn btn-primary  pull-right" type="button" id="button-shipping-address" data-toggle="collapse" data-parent="#checkout-page"
+															 data-target="#payment-method-content">Continuar</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div id="payment-method" class="panel panel-default">
+												<div class="panel-heading">
+													<h2 class="panel-title">
+														<a data-toggle="collapse" data-parent="#checkout-page" href="#payment-method-content" class="accordion-toggle">
+										Passo 4: Modo de pagamento
+									</a>
+													</h2>
+												</div>
+												<div id="payment-method-content" class="panel-collapse collapse">
+													<div class="panel-body row">
+														<div class="col-md-12">
+															<p>Selecione sua forma de pagamento preferida.</p>
+															<div class="radio-list">
+																<label>
+												<input type="radio" name="compra[modoPagamento]" checked="checked" value="PAYPAL"> Paypal
+											</label>
+															</div>
+															<div class="form-group">
+																<label for="delivery-payment-method">Adicione comentários sobre o pedido</label>
+																<textarea id="delivery-payment-method" rows="8" name="compra[comentario]" class="form-control"></textarea>
+															</div>
+															<button class="btn btn-primary  pull-right" type="button" id="button-payment-method" data-toggle="collapse" data-parent="#checkout-page"
+															 data-target="#confirm-content">Continuar</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div id="confirm" class="panel panel-default">
+												<div class="panel-heading">
+													<h2 class="panel-title">
+														<a data-toggle="collapse" data-parent="#checkout-page" href="#confirm-content" class="accordion-toggle">
+										Passo 5: Confirmar pedido
+									</a>
+													</h2>
+												</div>
+												<div id="confirm-content" class="panel-collapse collapse">
+													<div class="panel-body row">
+														<div class="col-md-12 clearfix">
+															<div class="table-wrapper-responsive">
+																<table>
+																	<thead>
+																		<tr>
+																			<th class="checkout-image">Foto</th>
+																			<th class="checkout-description">Descrição</th>
+																			<th class="checkout-quantity">Quantidade</th>
+																			<th class="checkout-price">Preço unitário</th>
+																			<th class="checkout-total">Total</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<%for (var i = 0; i < carrinho.itens.length; i++) {%>
+																			<%var produto = carrinho.itens[i];%>
+																				<tr>
+																					<td class="goods-page-image">
+																						<a href="javascript:;"><img src="<%=produto.urlFotoLista%>" alt="<%=produto.nome%>"></a>
+																					</td>
+																					<td class="goods-page-description">
+																						<h3>
+																							<a href="javascript:;">
+																								<%=produto.nome%>
+																							</a>
+																						</h3>
+																						<%if(produto.descrição){%>
+																							<p>
+																								<%=produto.descrição%>
+																							</p>
+																							<%}%>
+																								<%if(produto.observacao){%>
+																									<p>
+																										<%=produto.observacao%>
+																									</p>
+																									<%}%>
+																										<%if(produto.largura){%>
+																											<em><%=produto.largura%> cm X <%=produto.altura%> cm</em>
+																											<%}%>
+																												<%if(produto.peso){%>
+																													<em><%=produto.peso%> KG</em>
+																													<%}%>
+																					</td>
+																					<td class="goods-page-quantity">
+																						<div class="product-quantity">
+																							<strong><%=produto.numeroPedido%></strong>
+																						</div>
+																					</td>
+																					<td class="goods-page-price">
+																						<strong data-moeda="true"><%=produto.preco%></strong>
+																					</td>
+																					<td class="goods-page-total">
+																						<strong data-moeda="true"><%=produto.totalPedido%></strong>
+																					</td>
+																				</tr>
+																				<%}%>
+																	</tbody>
+																</table>
+															</div>
+															<div class="checkout-total-block">
+																<ul>
+																	<li>
+																		<em>Sub total</em>
+																		<strong class="price"><span data-moeda="true" class="valor-total"><%=carrinho.valorTotal%></span></strong>
+																	</li>
+																	<li>
+																		<em>Frete</em>
+																		<strong class="price"><span>R$ </span><span data-valor-frete="true">0</span></strong>
+																	</li>
+																	<li class="shopping-total-price">
+																		<em>Total</em>
+																		<strong class="price"><span>R$</span>
+														<span id="valor-total-compra" data-valor="<%=carrinho.valorTotal.toFixed(2)%>" class="valor-total"><%=carrinho.valorTotal%></span></strong>
+																	</li>
+																</ul>
+															</div>
+															<div class="clearfix"></div>
+															<button class="btn btn-primary pull-right ladda-button" data-size="l" type="button" id="confirmar-pedido" data-style="expand-right"><span class="ladda-label">Confirmar pedido</span></button>
+															<a href="/" class="btn btn-default pull-right margin-right-20">Cancelar</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modal-esqueci-senha">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Esqueci minha senha</h4>
+				</div>
+				<div class="modal-body">
+					<input name="emailNovaSenha" class="form-control" placeholder="Digite o email que será enviado sua nova senha" id="email-nova-senha"
+					 type="text">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" id="enviar-nova-senha">Enviar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<% include ../comum-site/rodape %>
+		<%-bundleJsFinalizarCompra%>

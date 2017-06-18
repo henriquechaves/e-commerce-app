@@ -1,0 +1,212 @@
+<% include ../comum-site/cabecalho %>
+	<link href="/stylesheets/assets/global/plugins/fancybox/jquery.fancybox.css" rel="stylesheet">
+	<link href="/stylesheets/assets/global/plugins/carousel-owl-carousel/owl.carousel.css" rel="stylesheet">
+	<link href="/stylesheets/assets/global/plugins/slider-layer-slider/css/layerslider.css" rel="stylesheet">
+	<link href="/stylesheets/assets/frontend/pages/css/style-layer-slider.css" rel="stylesheet">
+	<link href="/stylesheets/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/assets/global/plugins/rateit/src/rateit.css" rel="stylesheet" type="text/css">
+	<link href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
+
+	<%if(categoria){%>
+		<div class="title-wrapper">
+			<div class="container">
+				<div class="container-inner">
+					<h1>
+						<%=categoria.nome%>
+					</h1>
+				</div>
+			</div>
+		</div>
+		<%}%>
+
+			<div class="main">
+				<div class="container">
+					<%if(categoria){%>
+						<ul class="breadcrumb">
+							<li><a href="/">Home</a></li>
+							<li class="active">
+								<%=categoria.nome%>
+							</li>
+						</ul>
+						<%}%>
+
+							<%if(busca){%>
+								<ul class="breadcrumb">
+									<li><a href="/">Home</a></li>
+									<li class="active">Pesquisa</li>
+								</ul>
+								<%}%>
+
+									<div class="row margin-bottom-40">
+										<div class="sidebar col-md-3 col-sm-5">
+											<ul class="list-group margin-bottom-25 sidebar-menu">
+												<%if(categoria){%>
+													<li class="list-group-item clearfix">
+														<a href="/produtos"><i class="fa fa-angle-right"></i> Todos produtos</a>
+													</li>
+													<%}%>
+
+														<%for (var i = 0; i < categorias.length; i++) {%>
+															<%var cat = categorias[i];%>
+																<%if(categoria && cat.id.toString() === categoria.id.toString()){%>
+																	<li class="list-group-item clearfix active">
+																		<a href="/produtos?cat=<%=cat.id%>"><i class="fa fa-angle-right"></i> <%=cat.nome%></a>
+																	</li>
+																	<%}else{%>
+																		<li class="list-group-item clearfix">
+																			<a href="/produtos?cat=<%=cat.id%>"><i class="fa fa-angle-right"></i> <%=cat.nome%></a>
+																		</li>
+																		<%}%>
+																			<%}%>
+											</ul>
+
+											<div class="sidebar-filter margin-bottom-25">
+												<h3>Preço</h3>
+												<p>
+													<input type="text" id="menor-preco" value="<%=menorPreco%>" data-numero="true" style="border:0; color:#f6931f; font-weight:bold;display:inline;width:15%;">
+
+													<input type="text" id="maior-preco" value="<%=maiorPreco%>" data-numero="true" style="border:0; color:#f6931f; font-weight:bold;">
+												</p>
+												<div id="slider-range"></div>
+												<%if(categoria){%>
+													<a href="/produtos?cat=<%=categoria.id%>&menorp=_menor&maiorp=_maior" id="btn-filtrar" class="btn btn-default pull-right margin-top-20">Filtrar</a>
+													<%}else{%>
+														<a href="/produtos?menorp=_menor&maiorp=_maior" id="btn-filtrar" class="btn btn-default pull-right margin-top-20">Filtrar</a>
+														<%}%>
+											</div>
+										</div>
+										<div class="col-md-9 col-sm-7">
+											<%if(busca){%>
+												<div class="content-search margin-bottom-20">
+													<div class="row">
+														<div class="col-md-6">
+															<h1>Resultados para <em><%=busca%></em></h1>
+														</div>
+														<div class="col-md-6">
+															<form action="/produtos" action="GET">
+																<div class="input-group">
+																	<input type="text" placeholder="Buscar mais uma vez" name="busca" class="form-control">
+																	<span class="input-group-btn">
+											<button type="submit" class="btn btn-primary" type="submit">Buscar</button>
+										</span>
+																</div>
+															</form>
+														</div>
+													</div>
+												</div>
+												<%}%>
+													<div class="row list-view-sorting clearfix">
+														<div class="col-md-2 col-sm-2 list-view">
+															<a href="javascript:;"><i class="fa fa-th-large"></i></a>
+															<a href="javascript:;"><i class="fa fa-th-list"></i></a>
+														</div>
+														<div class="col-md-10 col-sm-10">
+															<div class="pull-right">
+																<%if(categoria){%>
+																	<a class="hide" href="/produtos?cat=<%=categoria.id%>&ord=nome" id="ordenar-nome"></a>
+																	<a class="hide" href="/produtos?cat=<%=categoria.id%>&ord=preco" id="ordenar-preco"></a>
+																	<%}else{%>
+																		<a class="hide" href="/produtos?ord=nome" id="ordenar-nome"></a>
+																		<a class="hide" href="/produtos?ord=preco" id="ordenar-preco"></a>
+																		<%}%>
+																			<label class="control-label">Ordenar por:</label>
+																			<select class="form-control input-sm" id="select-ordem">
+								<%if(ordenacao === 'nome'){%>
+								<option value="nome" selected="selected">Nome</option>
+								<option value="preco">Preço</option>
+								<%}else{%>
+								<option value="nome">Nome</option>
+								<option value="preco" selected="selected">Preço</option>
+								<%}%>
+							</select>
+															</div>
+														</div>
+													</div>
+													<%for (var i = 0; i < produtos.length; i++) {%>
+														<%var listaInterna = produtos[i];%>
+															<div class="row product-list">
+																<%for (var j = 0; j < listaInterna.length; j++) {%>
+																	<%var produto = listaInterna[j];%>
+																		<div class="col-md-4 col-sm-6 col-xs-12">
+																			<div class="product-item" data-produto="<%=JSON.stringify(produto)%>">
+																				<div class="pi-img-wrapper">
+																					<img style="height:325px" src="<%=produto.urlFotoLista%>" class="img-responsive" alt="<%=produto.nome%>">
+																					<div>
+																						<a href="<%=produto.urlFotoLista%>.jpg" class="btn btn-default fancybox-button">Zoom</a>
+																						<a href="javascript:void(0);" data-div-modal="#modal-produto" class="btn btn-default fancybox-fast-view">Ver</a>
+																					</div>
+																				</div>
+																				<h3 class="ellipsis">
+																					<a href="/produto/ver/<%=produto._id%>">
+																						<%=produto.nome%>
+																					</a>
+																				</h3>
+																				<div class="pi-price" data-moeda="true">
+																					<%=produto.preco%>
+																				</div>
+																				<button type="button" class="btn btn-default add2cart">Adicionar</button>
+																			</div>
+																		</div>
+																		<%}%>
+															</div>
+															<%}%>
+																<!-- BEGIN PAGINATOR -->
+																<div class="row">
+																	<div class="col-md-4 col-sm-4 items-info">Itens de 1 a
+																		<%=totalItens%>. Total:
+																			<%=total%>
+																	</div>
+																	<div class="col-md-8 col-sm-8">
+																		<ul class="pagination pull-right">
+
+																			<%if(categoria){%>
+																				<%if(paginaAtual !== 1){%>
+																					<li><a href="/produtos?cat=<%=categoria.id%>&pag=<%=paginaAtual - 1%>">&laquo;</a></li>
+																					<%}%>
+																						<%for (var i = 0; i < numeroPaginas; i++) {%>
+																							<%if(paginaAtual === i + 1){%>
+																								<li><span><%=(i + 1)%></span></li>
+																								<%}else{%>
+																									<li>
+																										<a href="/produtos?cat=<%=categoria.id%>&pag=<%=(i + 1)%>">
+																											<%=(i + 1)%>
+																										</a>
+																									</li>
+																									<%}%>
+																										<%}%>
+																											<%if(paginaAtual !== numeroPaginas){%>
+																												<li><a href="/produtos?cat=<%=categoria.id%>&pag=<%=numeroPaginas%>">&raquo;</a></li>
+																												<%}%>
+																													<%}else{%>
+																														<%if(paginaAtual !== 1){%>
+																															<li><a href="/produtos?pag=<%=paginaAtual - 1%>">&laquo;</a></li>
+																															<%}%>
+																																<%for (var i = 0; i < numeroPaginas; i++) {%>
+																																	<%if(paginaAtual === i + 1){%>
+																																		<li><span><%=(i + 1)%></span></li>
+																																		<%}else{%>
+																																			<li>
+																																				<a href="/produtos?pag=<%=(i + 1)%>">
+																																					<%=(i + 1)%>
+																																				</a>
+																																			</li>
+																																			<%}%>
+																																				<%}%>
+																																					<%if(paginaAtual !== numeroPaginas){%>
+																																						<li><a href="/produtos?pag=<%=numeroPaginas%>">&raquo;</a></li>
+																																						<%}%>
+																																							<%}%>
+																		</ul>
+																	</div>
+																</div>
+										</div>
+									</div>
+				</div>
+			</div>
+
+			<% include ../comum-site/rodape %>
+				<%-bundleJsListaProdutosSite%>
+
+					<script type="text/<html" id="scpProduto">
+						<% include ../comum-site/modal-produto %>
+					</script>
